@@ -1,0 +1,12 @@
+{
+    "author": "oflg",
+    "core-version": ">=5.2.3",
+    "dependents": "$:/plugins/tidme/fsrs4tw $:/plugins/tiddlywiki/dynaview $:/plugins/tiddlywiki/dynannotate",
+    "description": "Incremental Reading for Tidme",
+    "list": "readme license",
+    "name": "Tidme Read",
+    "plugin-type": "plugin",
+    "source": "https://github.com/oflg/Tidme-read",
+    "title": "$:/plugins/tidme/read",
+    "version": "0.5.3"
+}
