@@ -1,0 +1,14 @@
+title: $:/plugins/tidme/read/buttons/annotation/word
+tags: $:/tags/TidmeRead/annotation
+icon: $:/core/images/help
+caption: {{$:/language/tidme/read/word}}
+description: {{$:/language/tidme/read/wordtip}}
+condition: [<selectionTrim>]
+
+<$action-createtiddler
+    $basetitle={{{ [<studyTiddler>] [{$:/language/tidme/read/word}] [<selectionTrim>search-replace:g:regexp[\n],[]] +[join[/]]}}}
+    tags="?"
+    caption="! {{!!word}}"
+    text="{{||$:/plugins/tidme/read/ui/ViewTemplate/word}}"
+    word=<<selectionTrim>>
+/>

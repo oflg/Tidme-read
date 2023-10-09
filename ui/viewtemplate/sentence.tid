@@ -1,0 +1,4 @@
+title: $:/plugins/tidme/read/ui/ViewTemplate/sentence
+code-body: yes
+
+! <$text text={{{ [{!!text}split[]first[7]join[]] }}}/>

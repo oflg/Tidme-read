@@ -1,0 +1,12 @@
+tags: $:/tags/StartupAction
+title: $:/plugins/tidme/read/startupaction
+
+<$list
+    filter="[{$:/config/Dynannotate/SelectionTracker/Enable}!match[yes]]"
+    variable="ignore"
+>
+    <$action-setfield
+        $tiddler="$:/config/Dynannotate/SelectionTracker/Enable"
+        $value="yes"
+    />
+</$list>

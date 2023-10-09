@@ -1,0 +1,11 @@
+title: $:/plugins/tidme/read/ui/ViewTemplate/word
+code-body: yes
+
+<main style="width:100%;overflow:hidden;">
+    <iframe
+        height="400px"
+        width="100%"
+        src={{{ [{!!word}encodeuricomponent[]addprefix[https://dict.youdao.com/recite/words/#!/dict/engchn?le=eng&q=]] }}}
+        frameborder=0
+    />
+</main>

@@ -1,0 +1,78 @@
+code-body: yes
+title: $:/plugins/tidme/read/ui/ViewTemplate/tiddler
+
+\whitespace trim
+
+\define CJKV() [\u2E80-\u9FFF]
+
+\define click-excerpt-actions()
+<$action-setfield
+    $tiddler="$:/temp/tidme/read/selection"
+    text={{{ [<annotationTiddler>get[annotate-text]] }}}
+/>
+\end
+
+<$let
+    popup_title={{{ [[$:/state/popup/selection]addsuffix<studyTiddler>] }}}
+>
+    <div style="position:relative;">
+        <$dynannotate
+            filter="[all[shadows+tiddlers]!is[draft]has[annotate-text]]"
+            actions=<<click-excerpt-actions>>
+            popup=<<popup_title>>
+            search={{{ [all[shadows+tiddlers]!<studyTiddler>has[word]get[word]unique[]regexp<CJKV>join[|]addprefix[(]addsuffix[)]] [all[shadows+tiddlers]!<studyTiddler>has[word]get[word]unique[]!regexp<CJKV>join[|]addprefix[\b(]addsuffix[)\b]] +[join[|]] }}}
+            searchMode="regexp"
+            searchCaseSensitive="no"
+            searchClass="tc-dynannotation-search-overlay-animated"
+            searchMinLength={{$:/config/Search/MinLength}}
+        >
+            <div data-popup-title=<<popup_title>> data-selection-actions-title="$:/plugins/tidme/read/selectionaction">
+                <div id=<<studyTiddler>> class="dynannotate-chunk">
+                    {{||$:/core/ui/ViewTemplate}}
+                </div>
+            </div>
+        </$dynannotate>
+        <$list
+            filter="[{$:/temp/tidme/read/selection}!is[blank]]"
+            variable="selectionTrim"
+        >
+            <$let
+                selectionTrimLowercase={{{ [<selectionTrim>lowercase[]] }}}
+                selectionTrimTitlecase={{{ [<selectionTrim>titlecase[]] }}}
+                selectionTrimUppercase={{{ [<selectionTrim>uppercase[]] }}}
+                selectionPrefix={{$:/temp/tidme/read/selectionPrefix}}
+                selectionSuffix={{$:/temp/tidme/read/selectionSuffix}}
+            >
+                <$reveal
+                    type="popup"
+                    state=<<popup_title>>
+                    position="belowleft"
+                    updatePopupPosition="yes"
+                    positionAllowNegative="no"
+                    class="tc-popup-keep annotation-wrapper"
+                >
+                    <div
+                        class="tc-drop-down tc-popup-keep"
+                        style="min-width:0;"
+                    >
+                        <$list
+                            filter="[all[shadows+tiddlers]tag[$:/tags/TidmeRead/annotation]!is[draft]]"
+                            template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
+                        />
+                    </div>
+                    <br/>
+                    <$list
+                        filter="[all[shadows+tiddlers]word<selectionTrim>] [all[shadows+tiddlers]word<selectionTrimLowercase>] [all[shadows+tiddlers]word<selectionTrimTitlecase>] [all[shadows+tiddlers]word<selectionTrimUppercase>] [all[shadows+tiddlers]annotate-text<selectionTrim>] +[!is[draft]!<studyTiddler>]"
+                    >
+                        <$let
+                            studyTiddler=""
+                            deckTiddler=""
+                        >
+                            <$transclude tiddler={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/StoryTiddlerTemplateFilter]!is[draft]get[text]] :and[has[title]![$:/plugins/tidme/read/ui/ViewTemplate/tiddler]else[$:/core/ui/ViewTemplate]] }}} />
+                        </$let>
+                    </$list>
+                </$reveal>
+            </$let>
+        </$list>
+    </div>
+</$let>

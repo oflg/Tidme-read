@@ -1,0 +1,7 @@
+code-body: yes
+list-before: $:/config/StoryTiddlerTemplateFilters/default
+list-after: $:/config/Tidme/StoryTiddlerTemplateFilters/card
+tags: $:/tags/StoryTiddlerTemplateFilter
+title: $:/config/Tidme/StoryTiddlerTemplateFilters/read
+
+[subfilter{$:/config/Tidme/Filters/decktiddler}then[$:/plugins/tidme/read/ui/ViewTemplate/tiddler]]

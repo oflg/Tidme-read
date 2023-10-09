@@ -1,0 +1,17 @@
+title: $:/plugins/tidme/read/buttons/annotation/sentence
+tags: $:/tags/TidmeRead/annotation
+icon: $:/core/images/add-comment
+caption: {{$:/language/tidme/read/sentence}}
+description: {{$:/language/tidme/read/sentencetip}}
+condition: [<selectionTrim>]
+
+<$action-createtiddler
+    $basetitle={{{ [<studyTiddler>] [{$:/language/tidme/read/sentence}] [<selectionTrim>search-replace:g:regexp[\n],[]split[]first[7]join[]] +[join[/]]}}}
+    tags="."
+    caption="{{||$:/plugins/tidme/read/ui/ViewTemplate/sentence}}"
+    text=<<selectionTrim>>
+    annotate-text=<<selectionTrim>>
+    annotate-prefix=<<selectionPrefix>>
+    annotate-suffix=<<selectionSuffix>>
+    annotate-colour="LightSkyBlue"
+/>
