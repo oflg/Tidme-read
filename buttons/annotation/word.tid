@@ -6,8 +6,8 @@ description: {{$:/language/tidme/read/wordtip}}
 condition: [<selectionTrim>]
 
 <$action-createtiddler
-    $basetitle={{{ [<studyTiddler>] [{$:/language/tidme/read/word}] [<selectionTrim>search-replace:g:regexp[\n],[]] +[join[/]]}}}
-    tags="?"
+    $basetitle={{{ [{$:/language/tidme/read/word}] [<selectionTrim>search-replace:g:regexp[\n],[]] +[join[/]]}}}
+    tags={{{ [<studyTiddler>format:titlelist[]addsuffix[ ?]] }}}
     caption="! {{!!word}}"
     text="{{||$:/plugins/tidme/read/ui/ViewTemplate/word}}"
     word=<<selectionTrim>>

@@ -1,0 +1,75 @@
+footer: <$button message="tm-close-tiddler"><$action-sendmessage $message="tm-unload-plugin-library" url={{!!url}}/><$action-deletetiddler $filter="[prefix[$:/temp/ServerConnection/$(PluginLibraryURL)$][prefix[$:/temp/RemoteAssetInfo/$(PluginLibraryURL)$]"/>{{$:/language/Buttons/Close/Caption}}</$button>
+subtitle: <$transclude field="caption"/>
+title: $:/plugins/tidme/read/twpub/add
+
+\import $:/core/ui/ControlPanel/Modals/AddPlugins
+
+\define display-plugin-info(type)
+<div class="twpub-badge">
+    <div class="twpub-badge-cover">
+        <$list filter="[<assetInfo>has[cover-image-url]]" variable="ignore" emptyMessage="{{$:/plugins/tidme/read/twpub/default-book-cover}}">
+            <img src={{{ [<assetInfo>get[cover-image-url]] }}}/>
+        </$list>
+    </div>
+    <div class="twpub-badge-text">
+        <div class="twpub-badge-title">
+            <$text
+                text={{{ [<assetInfo>get[epub-title]] }}}
+            />
+        </div>
+        <div class="twpub-badge-author">
+            <$text
+                text={{{ [<assetInfo>get[epub-creator]] }}}
+            />
+        </div>
+    </div>
+    <div class="twpub-badge-install">
+        <<install-plugin-button>>
+    </div>
+</div>
+\end
+
+\define install-plugin-actions()
+\whitespace trim
+<$let
+    url={{!!url}}
+    title={{$(assetInfo)$!!original-title}}
+    title-twpub={{$(assetInfo)$!!epub-title}}
+    card-text="[all[shadows+tiddlers]prefix[__title__/toc]]"
+    card={{{ [<card-text>search-replace[__title__],<title>] }}}
+>
+    <$action-sendmessage
+        $message="tm-load-plugin-from-library"
+        title=<<title>>
+        url=<<url>>
+    />
+    <$action-createtiddler
+        $basetitle={{{ [[$:/Deck/read/]addsuffix<title-twpub>] }}}
+        $template="$:/Deck/default"
+        $overwrite="yes"
+        caption=<<title-twpub>>
+        description=""
+        card=<<card>>
+        card_unfold="[all[shadows+tiddlers]prefix[$:/plugins/twpub/]] [tag[.]]"
+        order_due="[sortan[]]"
+        order_new="[sortan[]]"
+        twpub=<<title>>
+    />
+    <$let
+        currentTiddler=<<assetInfo>>
+    >
+        <$list
+            filter="[enlist{!!dependents}] [{!!parent-plugin}] +[sort[name]]"
+            variable="dependency"
+        >
+            <$action-sendmessage
+                $message="tm-load-plugin-from-library"
+                url=<<url>>
+                title=<<dependency>>
+            />
+        </$list>
+    </$let>
+</$let>
+\end
+
+<<display-server-assets "plugin">>

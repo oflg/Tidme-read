@@ -10,3 +10,7 @@ title: $:/plugins/tidme/read/styles.css
     overflow-y:hidden;
     user-select:none;
 }
+
+.tmc-book h1 .tc-toc-caption.tc-tiny-gap-left {
+    display: none;
+}

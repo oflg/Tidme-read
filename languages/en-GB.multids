@@ -1,7 +1,14 @@
 title: $:/language/tidme/read/
 
+read: Read
 annotate: Annotation
 word: Annotate word
 wordtip: Annotate the selected word
 sentence: Excerpt sentence
 sentencetip: Excerpt the selected sentence
+twpub: TWPUB books
+twpubtip: TWPUB is a electronic publications based on TiddlyWiki
+importtwpub: Import TWPUB to read
+twpublibrary: TWPUB Books Plugin Library
+twpublibrarytip: This plugin library can be used to install and update TWPUB books.
+preview: Preview chapter content

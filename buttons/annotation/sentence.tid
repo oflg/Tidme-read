@@ -6,8 +6,8 @@ description: {{$:/language/tidme/read/sentencetip}}
 condition: [<selectionTrim>]
 
 <$action-createtiddler
-    $basetitle={{{ [<studyTiddler>] [{$:/language/tidme/read/sentence}] [<selectionTrim>search-replace:g:regexp[\n],[]split[]first[7]join[]] +[join[/]]}}}
-    tags="."
+    $basetitle={{{ [{$:/language/tidme/read/sentence}] [<selectionTrim>search-replace:g:regexp[\n],[]split[]first[13]join[]] +[join[/]]}}}
+    tags={{{ [<studyTiddler>format:titlelist[]addsuffix[ .]] }}}
     caption="{{||$:/plugins/tidme/read/ui/ViewTemplate/sentence}}"
     text=<<selectionTrim>>
     annotate-text=<<selectionTrim>>

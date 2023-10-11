@@ -1,0 +1,36 @@
+title: $:/plugins/tidme/read/twpub/badge
+code-body: yes
+
+<$button
+    class="twpub-badge"
+>
+    <$action-navigate/>
+    <$let
+        currentTiddler={{{ [<currentTiddler>get[twpub]] }}}
+    >
+        <div class="twpub-badge-cover">
+            <$list
+                filter="[<currentTiddler>has[cover-image]]"
+                variable="ignore"
+                emptyMessage="{{$:/TWPUB/default-book-cover}}"
+            >
+                <$transclude
+                    tiddler=<<currentTiddler>>
+                    subtiddler={{!!cover-image}}
+                />
+            </$list>
+        </div>
+        <div class="twpub-badge-text">
+            <div class="twpub-badge-title">
+                <$text
+                    text={{!!epub-title}}
+                />
+            </div>
+            <div class="twpub-badge-author">
+                <$text
+                    text={{!!epub-creator}}
+                />
+            </div>
+        </div>
+    </$let>
+</$button>

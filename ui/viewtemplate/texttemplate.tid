@@ -1,0 +1,39 @@
+title: $:/plugins/tidme/read/ui/ViewTemplate/texttemplate
+code-body: yes
+
+\define link-actions()
+<$action-sendmessage
+    $message="tm-scroll"
+    selector={{{ [<navigateTo>escapecss[]addprefix[#]] }}}
+/>
+\end
+
+<$linkcatcher
+    actions=<<link-actions>>
+>
+    <$let
+        twpub={{{ [<currentTiddler>split[/toc/]first[]] }}}
+        last-chunks={{{ [<currentTiddler>split[/toc/]first[]get[count-chunks]subtract[1]pad[9]addprefix[/text/]addprefix<twpub>] }}}
+        target-next={{{ [<currentTiddler>split[-]butlast[]] [<currentTiddler>split[-]last[]add[1]] +[join[-]get[target]else<last-chunks>] }}}
+    >
+        <$list
+            filter="[<currentTiddler>shadowsource[]plugintiddlers[]sortan[]allafter:include{!!target}allbefore:include<target-next>]"
+        >
+            <$set name="state" value={{{ [[$:/state/viewtemplate/visibility/]addsuffix<currentTiddler>] }}}>
+                <$reveal stateTitle=<<state>> type="nomatch" text="" default="" tag="div">
+                    <div class="tc-dynaview-track-tiddler-when-visible" data-dynaview-track-tiddler=<<state>> >
+                        <a id=<<currentTiddler>> >
+                            <$transclude
+                                mode="inline"
+                            />
+                        </a>
+                    </div>
+                </$reveal>
+                <$reveal stateTitle=<<state>> type="match" text="" default="" tag="div">
+                    <div class="tc-dynaview-track-tiddler-when-visible" style="min-height: 5em;" data-dynaview-track-tiddler=<<state>> >
+                    </div>
+                </$reveal>
+            </$set>
+        </$list>
+    </$let>
+</$linkcatcher>

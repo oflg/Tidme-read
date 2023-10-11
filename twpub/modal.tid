@@ -1,0 +1,4 @@
+footer: <$button message="tm-close-tiddler" disabled={{{ [<precent>match[100]then[no]else[yes]] }}}><$action-deletetiddler $tiddler="$:/temp/tidme/modal/addtwpub"/>{{$:/language/Buttons/Close/Caption}}</$button>
+title: $:/plugins/tidme/read/twpub/modal
+
+<$range index="range" min="0" max="100" default=<<precent>> increment="1" disabled="yes"/> <<precent>>% 11111

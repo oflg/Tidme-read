@@ -1,0 +1,6 @@
+caption: {{$:/language/tidme/read/twpublibrary}}
+library-type: twpub
+title: $:/config/Tidme/Libraries/twpub
+url: https://twpub-tools.org/library/
+
+{{$:/language/tidme/read/twpublibrarytip}}
