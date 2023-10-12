@@ -28,7 +28,7 @@ title: $:/plugins/tidme/read/twpub/import
         </div>
     </$list>
     <$list
-        filter="[all[shadows+tiddlers]tag[$:/tags/TidmeDeck]!is[draft]has[twpub]sort[]]"
+        filter="[all[tiddlers]plugin-type[plugin]has[epub-title]sort[]]"
             template="$:/plugins/tidme/read/twpub/badge"
             storyview="pop"
         />

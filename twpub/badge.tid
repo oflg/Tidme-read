@@ -4,10 +4,15 @@ code-body: yes
 <$button
     class="twpub-badge"
 >
-    <$action-navigate/>
     <$let
-        currentTiddler={{{ [<currentTiddler>get[twpub]] }}}
+        deckTiddler={{{ [all[shadows+tiddlers]tag[$:/tags/TidmeDeck]twpub<currentTiddler>] }}}
+        card=`[all[shadows+tiddlers]prefix[$(currentTiddler)$/toc]]`
     >
+        <$list
+            filter="[<deckTiddler>!is[blank]]"
+        >
+            <$action-navigate/>
+        </$list>
         <div class="twpub-badge-cover">
             <$list
                 filter="[<currentTiddler>has[cover-image]]"
@@ -32,5 +37,30 @@ code-body: yes
                 />
             </div>
         </div>
+        <$reveal
+            default=<<deckTiddler>>
+            type="match"
+            text=""
+            tag="div"
+            class="twpub-badge-install"
+        >
+            <$button
+                class="tc-btn-invisible tc-install-plugin"
+            >
+                <$action-createtiddler
+                    $basetitle={{{ [[$:/Deck/read/]addsuffix{!!epub-title}] }}}
+                    $template="$:/Deck/default"
+                    $overwrite="yes"
+                    caption={{!!epub-title}}
+                    description=""
+                    card=<<card>>
+                    card_unfold="[all[shadows+tiddlers]prefix[$:/plugins/twpub/]] [tag[.]]"
+                    order_due="[sortan[]]"
+                    order_new="[sortan[]]"
+                    twpub=<<currentTiddler>>
+                />
+                {{$:/language/ControlPanel/Plugins/Update/Caption}}
+            </$button>
+        </$reveal>
     </$let>
 </$button>
