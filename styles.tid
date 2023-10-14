@@ -5,7 +5,6 @@ title: $:/plugins/tidme/read/styles.css
     transform: scale(0.7);
     transform-origin: top left;
     overflow-y:hidden;
-    user-select:none;
 }
 
 .tmc-annotation-wrapper .tc-drop-down button{
