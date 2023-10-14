@@ -53,27 +53,19 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/tiddler
 >
     <div style="position:relative;">
         <$dynannotate
-            filter="[all[shadows+tiddlers]!is[draft]!<currentTiddler>has[annotate-text]]"
+            filter="[all[shadows+tiddlers]!tag[!]!is[draft]!<currentTiddler>has[annotate-text]]"
             actions=<<click-excerpt-actions>>
-            search={{{ [all[shadows+tiddlers]!<studyTiddler>has[word]] :filter[subfilter{$:/config/Tidme/Filters/decktiddler}] +[get[word]unique[]] :map[!regexp<CJKV>addprefix[(]addsuffix[)]else<currentTiddler>] +[join[|]] }}}
+            search={{{ [all[shadows+tiddlers]!tag[!]!<studyTiddler>has[word]get[word]unique[]] :map[!regexp<CJKV>addprefix[(]addsuffix[)]else<currentTiddler>] +[join[|]] }}}
             searchMode="regexp"
             searchCaseSensitive="no"
             searchClass="tc-dynannotation-search-overlay"
             searchMinLength={{$:/config/Search/MinLength}}
         >
-            <$dynannotate
-                search={{{ [all[shadows+tiddlers]!<studyTiddler>has[word]] :filter[!subfilter{$:/config/Tidme/Filters/decktiddler}] +[get[word]unique[]] :map[!regexp<CJKV>addprefix[(]addsuffix[)]else<currentTiddler>] +[join[|]] }}}
-                searchMode="regexp"
-                searchCaseSensitive="no"
-                searchClass="tc-dynannotation-search-overlay-animated"
-                searchMinLength={{$:/config/Search/MinLength}}
-            >
-                <div data-selection-actions-title="$:/plugins/tidme/read/actions/selection" data-popup-title=<<selection_popup_title>> data-story=<<story>>  data-history=<<history>> >
-                    <div id=<<studyTiddler>> class="dynannotate-chunk">
-                        {{||$:/core/ui/ViewTemplate}}
-                    </div>
+            <div data-selection-actions-title="$:/plugins/tidme/read/actions/selection" data-popup-title=<<selection_popup_title>> data-story=<<story>>  data-history=<<history>> >
+                <div id=<<studyTiddler>> class="dynannotate-chunk">
+                    {{||$:/core/ui/ViewTemplate}}
                 </div>
-            </$dynannotate>
+            </div>
         </$dynannotate>
         <$reveal
             type="popup"
