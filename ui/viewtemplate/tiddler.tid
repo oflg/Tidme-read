@@ -58,7 +58,7 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/tiddler
             search={{{ [all[shadows+tiddlers]!tag[!]!<studyTiddler>has[word]get[word]unique[]] :map[!regexp<CJKV>addprefix[(]addsuffix[)]else<currentTiddler>] +[join[|]] }}}
             searchMode="regexp"
             searchCaseSensitive="no"
-            searchClass="tc-dynannotation-search-overlay"
+            searchClass="tc-dynannotation-search-overlay-animated"
             searchMinLength={{$:/config/Search/MinLength}}
         >
             <div data-selection-actions-title="$:/plugins/tidme/read/actions/selection" data-popup-title=<<selection_popup_title>> data-story=<<story>>  data-history=<<history>> >
