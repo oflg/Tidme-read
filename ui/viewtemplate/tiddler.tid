@@ -55,7 +55,7 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/tiddler
         <$dynannotate
             filter="[all[shadows+tiddlers]!tag[!]!is[draft]!<currentTiddler>has[annotate-text]]"
             actions=<<click-excerpt-actions>>
-            search={{{ [all[shadows+tiddlers]!tag[!]!<studyTiddler>has[word]get[word]unique[]] :map[!regexp<CJKV>addprefix[(]addsuffix[)]else<currentTiddler>] +[join[|]] }}}
+            search={{{ [all[shadows+tiddlers]!<studyTiddler>has[word]get[word]unique[]regexp<CJKV>join[|]addprefix[(]addsuffix[)]] [all[shadows+tiddlers]!<studyTiddler>has[word]get[word]unique[]!regexp<CJKV>join[|]addprefix[\b(]addsuffix[)\b]] +[join[|]] }}}
             searchMode="regexp"
             searchCaseSensitive="no"
             searchClass="tc-dynannotation-search-overlay-animated"
