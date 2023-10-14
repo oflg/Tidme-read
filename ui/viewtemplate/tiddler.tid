@@ -3,8 +3,6 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/tiddler
 
 \whitespace trim
 
-\define CJKV() [\u2E80-\u9FFF]
-
 \define click-excerpt-actions()
 <$action-deletetiddler
     $tiddler=<<story>>
@@ -47,6 +45,7 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/tiddler
 \end
 
 <$let
+    CJKV="[\u2E80-\u9FFF]"
     selection_popup_title={{{ [[$:/state/popup/selection]] [<studyTiddler>] [<qualify>] +[join[/]] }}}
     click_popup_title={{{ [[$:/state/popup/click]] [<studyTiddler>] [<qualify>] +[join[/]] }}}
     story={{{ [[$:/temp/tidme/read/story]addsuffix<studyTiddler>] }}}
@@ -56,17 +55,25 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/tiddler
         <$dynannotate
             filter="[all[shadows+tiddlers]!is[draft]!<currentTiddler>has[annotate-text]]"
             actions=<<click-excerpt-actions>>
-            search={{{ [all[shadows+tiddlers]!<studyTiddler>has[word]get[word]unique[]regexp<CJKV>join[|]addprefix[(]addsuffix[)]] [all[shadows+tiddlers]!<studyTiddler>has[word]get[word]unique[]!regexp<CJKV>join[|]addprefix[\b(]addsuffix[)\b]] +[join[|]] }}}
+            search={{{ [all[shadows+tiddlers]!<studyTiddler>has[word]] :filter[subfilter{$:/config/Tidme/Filters/decktiddler}] +[get[word]unique[]] :map[!regexp<CJKV>addprefix[(]addsuffix[)]else<currentTiddler>] +[join[|]] }}}
             searchMode="regexp"
             searchCaseSensitive="no"
-            searchClass="tc-dynannotation-search-overlay-animated"
+            searchClass="tc-dynannotation-search-overlay"
             searchMinLength={{$:/config/Search/MinLength}}
         >
-            <div data-selection-actions-title="$:/plugins/tidme/read/actions/selection" data-popup-title=<<selection_popup_title>> data-story=<<story>>  data-history=<<history>> >
-                <div id=<<studyTiddler>> class="dynannotate-chunk">
-                    {{||$:/core/ui/ViewTemplate}}
+            <$dynannotate
+                search={{{ [all[shadows+tiddlers]!<studyTiddler>has[word]] :filter[!subfilter{$:/config/Tidme/Filters/decktiddler}] +[get[word]unique[]] :map[!regexp<CJKV>addprefix[(]addsuffix[)]else<currentTiddler>] +[join[|]] }}}
+                searchMode="regexp"
+                searchCaseSensitive="no"
+                searchClass="tc-dynannotation-search-overlay-animated"
+                searchMinLength={{$:/config/Search/MinLength}}
+            >
+                <div data-selection-actions-title="$:/plugins/tidme/read/actions/selection" data-popup-title=<<selection_popup_title>> data-story=<<story>>  data-history=<<history>> >
+                    <div id=<<studyTiddler>> class="dynannotate-chunk">
+                        {{||$:/core/ui/ViewTemplate}}
+                    </div>
                 </div>
-            </div>
+            </$dynannotate>
         </$dynannotate>
         <$reveal
             type="popup"
