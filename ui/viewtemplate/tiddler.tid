@@ -6,73 +6,113 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/tiddler
 \define CJKV() [\u2E80-\u9FFF]
 
 \define click-excerpt-actions()
+<$action-deletetiddler
+    $tiddler=<<story>>
+/>
+<$action-deletetiddler
+    $tiddler=<<history>>
+/>
 <$action-setfield
-    $tiddler="$:/temp/tidme/read/selection"
+    $tiddler="$:/temp/tidme/read/selection/text"
     text={{{ [<annotationTiddler>get[annotate-text]] }}}
 />
+<$action-setfield
+    $tiddler="$:/temp/tidme/read/selection/prefix"
+    text={{{ [<annotationTiddler>get[annotate-prefix]] }}}
+/>
+<$action-setfield
+    $tiddler="$:/temp/tidme/read/selection/suffix"
+    text={{{ [<annotationTiddler>get[annotate-suffix]] }}}
+/>
+<$let
+    selectionText={{{ [<annotationTiddler>get[annotate-text]] }}}
+    selectionTrim={{{ [<selectionText>trim[]] }}}
+    selectionTrimLowercase={{{ [<selectionTrim>lowercase[]] }}}
+    selectionTrimTitlecase={{{ [<selectionTrim>titlecase[]] }}}
+    selectionTrimUppercase={{{ [<selectionTrim>uppercase[]] }}}
+>
+    <$list
+        filter="[<selectionTrim>!is[blank]]"
+        variable="selectionTrim"
+    >
+
+        <$action-popup
+            $state=<<selection_popup_title>>
+            $coords=<<tv-selection-coords>>
+            $floating="yes"
+        />
+        {{$:/plugins/tidme/read/actions/story}}
+    </$list>
+</$let>
 \end
 
 <$let
-    popup_title={{{ [[$:/state/popup/selection]addsuffix<studyTiddler>] }}}
+    selection_popup_title={{{ [[$:/state/popup/selection]] [<studyTiddler>] [<qualify>] +[join[/]] }}}
+    click_popup_title={{{ [[$:/state/popup/click]] [<studyTiddler>] [<qualify>] +[join[/]] }}}
+    story={{{ [[$:/temp/tidme/read/story]addsuffix<studyTiddler>] }}}
+    history={{{ [[$:/temp/tidme/read/history]addsuffix<studyTiddler>] }}}
 >
     <div style="position:relative;">
         <$dynannotate
-            filter="[all[shadows+tiddlers]!is[draft]has[annotate-text]]"
+            filter="[all[shadows+tiddlers]!is[draft]!<currentTiddler>has[annotate-text]]"
             actions=<<click-excerpt-actions>>
-            popup=<<popup_title>>
             search={{{ [all[shadows+tiddlers]!<studyTiddler>has[word]get[word]unique[]regexp<CJKV>join[|]addprefix[(]addsuffix[)]] [all[shadows+tiddlers]!<studyTiddler>has[word]get[word]unique[]!regexp<CJKV>join[|]addprefix[\b(]addsuffix[)\b]] +[join[|]] }}}
             searchMode="regexp"
             searchCaseSensitive="no"
             searchClass="tc-dynannotation-search-overlay-animated"
             searchMinLength={{$:/config/Search/MinLength}}
         >
-            <div data-popup-title=<<popup_title>> data-selection-actions-title="$:/plugins/tidme/read/selectionaction">
+            <div data-selection-actions-title="$:/plugins/tidme/read/actions/selection" data-popup-title=<<selection_popup_title>> data-story=<<story>>  data-history=<<history>> >
                 <div id=<<studyTiddler>> class="dynannotate-chunk">
                     {{||$:/core/ui/ViewTemplate}}
                 </div>
             </div>
         </$dynannotate>
-        <$list
-            filter="[{$:/temp/tidme/read/selection}!is[blank]]"
-            variable="selectionTrim"
+        <$reveal
+            type="popup"
+            tag="div"
+            state=<<selection_popup_title>>
+            updatePopupPosition="yes"
+            position="below"
+            class="tmc-annotation-wrapper"
         >
-            <$let
-                selectionTrimLowercase={{{ [<selectionTrim>lowercase[]] }}}
-                selectionTrimTitlecase={{{ [<selectionTrim>titlecase[]] }}}
-                selectionTrimUppercase={{{ [<selectionTrim>uppercase[]] }}}
-                selectionPrefix={{$:/temp/tidme/read/selectionPrefix}}
-                selectionSuffix={{$:/temp/tidme/read/selectionSuffix}}
+            <$navigator
+                story=<<story>>
+                history=<<history>>
+                openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}}
+                openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}}
+                relinkOnRename={{$:/config/RelinkOnRename}}
             >
-                <$reveal
-                    type="popup"
-                    state=<<popup_title>>
-                    position="belowleft"
-                    updatePopupPosition="yes"
-                    positionAllowNegative="no"
-                    class="tc-popup-keep annotation-wrapper"
-                >
-                    <div
-                        class="tc-drop-down tc-popup-keep"
-                        style="min-width:0;"
-                    >
-                        <$list
-                            filter="[all[shadows+tiddlers]tag[$:/tags/TidmeRead/annotation]!is[draft]]"
-                            template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
-                        />
+                <section class="tc-story-river" role="main">
+                    <div style="dispaly:flex;">
+                        <div class="tc-drop-down" style="min-width:0;">
+                            {{$:/plugins/tidme/read/buttons/annotation/close||$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button}}
+                        </div>
+                        <div class="tc-drop-down" style="min-width:0;">
+                            <$list
+                                filter="[all[shadows+tiddlers]tag[$:/tags/TidmeRead/annotation]!is[draft]]"
+                                template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
+                            />
+                        </div>
                     </div>
                     <br/>
                     <$list
-                        filter="[all[shadows+tiddlers]word<selectionTrim>] [all[shadows+tiddlers]word<selectionTrimLowercase>] [all[shadows+tiddlers]word<selectionTrimTitlecase>] [all[shadows+tiddlers]word<selectionTrimUppercase>] [all[shadows+tiddlers]annotate-text<selectionTrim>] +[!is[draft]!<studyTiddler>]"
+                        filter="[list<story>]"
+                        history=<<history>>
+                        storyview={{$:/view}}
+                        emptyMessage={{$:/config/EmptyStoryMessage}}
                     >
                         <$let
                             studyTiddler=""
                             deckTiddler=""
                         >
-                            <$transclude tiddler={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/StoryTiddlerTemplateFilter]!is[draft]get[text]] :and[has[title]![$:/plugins/tidme/read/ui/ViewTemplate/tiddler]else[$:/core/ui/ViewTemplate]] }}} />
+                            <$transclude
+                                tiddler={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/StoryTiddlerTemplateFilter]!is[draft]get[text]] :and[has[title]![$:/plugins/tidme/read/ui/ViewTemplate/tiddler]else[$:/core/ui/ViewTemplate]] }}}
+                            />
                         </$let>
                     </$list>
-                </$reveal>
-            </$let>
-        </$list>
+                </section>
+            </$navigator>
+        </$reveal>
     </div>
 </$let>
