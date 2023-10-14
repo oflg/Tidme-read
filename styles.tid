@@ -1,14 +1,15 @@
 tags: $:/tags/Stylesheet
 title: $:/plugins/tidme/read/styles.css
 
-.annotation-wrapper {
-    min-width: 500px;
+.tmc-annotation-wrapper {
     transform: scale(0.7);
     transform-origin: top left;
-    margin: 15px 0;
-    padding: 10px;
     overflow-y:hidden;
     user-select:none;
+}
+
+.tmc-annotation-wrapper .tc-drop-down button{
+    padding: 7px 14px;;
 }
 
 .tmc-book h1 .tc-toc-caption.tc-tiny-gap-left {

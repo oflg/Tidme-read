@@ -2,6 +2,8 @@ title: $:/language/tidme/read/
 
 read: Read
 annotate: Annotation
+close: Close popup
+closetip: Close this popup
 word: Annotate word
 wordtip: Annotate the selected word
 sentence: Excerpt sentence

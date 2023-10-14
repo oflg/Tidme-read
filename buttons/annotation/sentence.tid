@@ -3,15 +3,20 @@ tags: $:/tags/TidmeRead/annotation
 icon: $:/core/images/add-comment
 caption: {{$:/language/tidme/read/sentence}}
 description: {{$:/language/tidme/read/sentencetip}}
-condition: [<selectionTrim>]
+condition: [{$:/temp/tidme/read/selection/text}trim[]]
 
 <$action-createtiddler
-    $basetitle={{{ [{$:/language/tidme/read/sentence}] [<selectionTrim>search-replace:g:regexp[\n],[]split[]first[13]join[]] +[join[/]]}}}
+    $basetitle={{{ [{$:/language/tidme/read/sentence}] [{$:/temp/tidme/read/selection/text}trim[]search-replace:g:regexp[\n],[]split[]first[13]join[]] +[join[/]]}}}
     tags={{{ [<studyTiddler>format:titlelist[]addsuffix[ .]] }}}
     caption="{{||$:/plugins/tidme/read/ui/ViewTemplate/sentence}}"
-    text=<<selectionTrim>>
-    annotate-text=<<selectionTrim>>
-    annotate-prefix=<<selectionPrefix>>
-    annotate-suffix=<<selectionSuffix>>
+    text={{{ [{$:/temp/tidme/read/selection/text}trim[]] }}}
+    annotate-text={{{ [{$:/temp/tidme/read/selection/text}] }}}
+    annotate-prefix={{{ [{$:/temp/tidme/read/selection/prefix}split[]last[13]join[]] }}}
+    annotate-suffix={{{ [{$:/temp/tidme/read/selection/suffix}split[]first[13]join[]] }}}
     annotate-colour="LightSkyBlue"
-/>
+>
+    <$action-navigate
+        $to=<<createTiddler-title>>
+        $scroll="no"
+    />
+</$action-createtiddler>

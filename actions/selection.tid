@@ -1,0 +1,50 @@
+title: $:/plugins/tidme/read/actions/selection
+code-body: yes
+
+<$let
+    story=<<dom-data-story>>
+    history=<<dom-data-history>>
+    popup-title=<<dom-data-popup-title>>
+>
+    <$action-deletetiddler
+        $tiddler=<<story>>
+    />
+    <$action-deletetiddler
+        $tiddler=<<history>>
+    />
+    <$action-setfield
+        $tiddler=<<selection_popup_title>>
+        text=""
+    />
+    <$action-setfield
+        $tiddler="$:/temp/tidme/read/selection/text"
+        text={{{ [<selection>jsonget[chunks],[0],[text]] }}}
+    />
+    <$action-setfield
+        $tiddler="$:/temp/tidme/read/selection/prefix"
+        text={{{ [<selection>jsonget[chunks],[0],[prefix]] }}}
+    />
+    <$action-setfield
+        $tiddler="$:/temp/tidme/read/selection/suffix"
+        text={{{ [<selection>jsonget[chunks],[0],[suffix]] }}}
+    />
+    <$let
+        selectionText={{{ [<selection>jsonget[chunks],[0],[text]] }}}
+        selectionTrim={{{ [<selectionText>trim[]] }}}
+        selectionTrimLowercase={{{ [<selectionTrim>lowercase[]] }}}
+        selectionTrimTitlecase={{{ [<selectionTrim>titlecase[]] }}}
+        selectionTrimUppercase={{{ [<selectionTrim>uppercase[]] }}}
+    >
+        <$list
+            filter="[<selectionTrim>!is[blank]]"
+            variable="selectionTrim"
+        >
+            <$action-popup
+                $state=<<popup-title>>
+                $coords=<<tv-selection-coords>>
+                $floating="yes"
+            />
+            {{$:/plugins/tidme/read/actions/story}}
+        </$list>
+    </$let>
+</$let>
