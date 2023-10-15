@@ -2,7 +2,6 @@ title: $:/plugins/tidme/read/actions/click
 code-body: yes
 
 {{$:/plugins/tidme/read/buttons/annotation/close}}
-<$log/>
 <$action-setfield
     $tiddler="$:/temp/tidme/read/selection/text"
     text={{{ [<annotationTiddler>get[annotate-text]] }}}

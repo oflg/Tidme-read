@@ -6,7 +6,7 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/body
 <$let
     CJKV="[\u2E80-\u9FFF]"
     selection_popup_title={{{ [[$:/temp/tidme/read/state/]addsuffix<currentTiddler>] }}}
-    story={{{ [[$:/temp/tidme/read/storylist]addsuffix<currentTiddler>] }}}
+    story={{{ [[$:/temp/tidme/read/storylist/]addsuffix<currentTiddler>] }}}
     history={{{ [[$:/temp/tidme/read/historylist/]addsuffix<currentTiddler>] }}}
 >
     <div style="position:relative;">

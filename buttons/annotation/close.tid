@@ -5,5 +5,12 @@ description: {{$:/language/tidme/read/closetip}}
 condition: [<currentTiddler>]
 
 <$action-deletetiddler
-    $filter="[all[shadows+tiddlers]prefix[$:/temp/tidme/read/]]"
+    $tiddler=<<story>>
+/>
+<$action-deletetiddler
+    $tiddler=<<history>>
+/>
+<$action-setfield
+    $tiddler=<<selection_popup_title>>
+    text=""
 />

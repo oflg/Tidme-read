@@ -1,14 +1,13 @@
 title: $:/plugins/tidme/read/actions/selection
 code-body: yes
 
-{{$:/plugins/tidme/read/buttons/annotation/close}}
-<$log/>
 <$let
     title=<<dom-data-selection-title>>
     popup-title=<<dom-data-selection-popup-title>>
     story=<<dom-data-story>>
     history=<<dom-data-history>>
 >
+    {{$:/plugins/tidme/read/buttons/annotation/close}}
     <$action-setfield
         $tiddler="$:/temp/tidme/read/selection/title"
         text=<<title>>
