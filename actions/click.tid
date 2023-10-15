@@ -1,0 +1,40 @@
+title: $:/plugins/tidme/read/actions/click
+code-body: yes
+
+{{$:/plugins/tidme/read/buttons/annotation/close}}
+<$log/>
+<$action-setfield
+    $tiddler="$:/temp/tidme/read/selection/text"
+    text={{{ [<annotationTiddler>get[annotate-text]] }}}
+/>
+<$let
+    selectionText={{{ [<annotationTiddler>get[annotate-text]] }}}
+    selectionTrim={{{ [<selectionText>trim[]] }}}
+    selectionTrimLowercase={{{ [<selectionTrim>lowercase[]] }}}
+    selectionTrimTitlecase={{{ [<selectionTrim>titlecase[]] }}}
+    selectionTrimUppercase={{{ [<selectionTrim>uppercase[]] }}}
+>
+    <$list
+        filter="[<selectionTrim>!is[blank]]"
+        variable="selectionTrim"
+    >
+        <$action-popup
+            $state=<<selection_popup_title>>
+            $coords=<<tv-selection-coords>>
+            $floating="yes"
+        />
+        <$navigator
+            story=<<story>>
+            history=<<history>>
+            openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}}
+            openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}}
+            relinkOnRename={{$:/config/RelinkOnRename}}
+        >
+            <$list
+                filter="[all[shadows+tiddlers]annotate-text<selectionText>] [all[shadows+tiddlers]annotate-text<selectionTrim>] [all[shadows+tiddlers]word<selectionTrim>] [all[shadows+tiddlers]word<selectionTrimLowercase>] [all[shadows+tiddlers]word<selectionTrimTitlecase>] [all[shadows+tiddlers]word<selectionTrimUppercase>] +[!is[draft]!<currentTiddler>has[title]]"
+            >
+                <$action-navigate $scroll="no"/>
+            </$list>
+        </$navigator>
+    </$list>
+</$let>

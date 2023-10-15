@@ -14,7 +14,6 @@ ${ [{$:/temp/tidme/read/selection/prefix}split[.]split[。]last[]] }$ ''${ [{$:/
     text="{{||$:/plugins/tidme/read/ui/ViewTemplate/word}}"
     word={{{ [{$:/temp/tidme/read/selection/text}trim[]] }}}
     annotate-text={{{ [{$:/temp/tidme/read/selection/text}trim[]] }}}
-    annotate-colour="LightSkyBlue"
     $timestamp={{$:/config/TimestampDisable}}
 >
     <$action-navigate

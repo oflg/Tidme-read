@@ -1,20 +1,17 @@
 title: $:/plugins/tidme/read/actions/selection
 code-body: yes
 
+{{$:/plugins/tidme/read/buttons/annotation/close}}
+<$log/>
 <$let
+    title=<<dom-data-selection-title>>
+    popup-title=<<dom-data-selection-popup-title>>
     story=<<dom-data-story>>
     history=<<dom-data-history>>
-    popup-title=<<dom-data-popup-title>>
 >
-    <$action-deletetiddler
-        $tiddler=<<story>>
-    />
-    <$action-deletetiddler
-        $tiddler=<<history>>
-    />
     <$action-setfield
-        $tiddler=<<selection_popup_title>>
-        text=""
+        $tiddler="$:/temp/tidme/read/selection/title"
+        text=<<title>>
     />
     <$action-setfield
         $tiddler="$:/temp/tidme/read/selection/text"
@@ -44,7 +41,19 @@ code-body: yes
                 $coords=<<tv-selection-coords>>
                 $floating="yes"
             />
-            {{$:/plugins/tidme/read/actions/story}}
+            <$navigator
+                story=<<story>>
+                history=<<history>>
+                openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}}
+                openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}}
+                relinkOnRename={{$:/config/RelinkOnRename}}
+            >
+                <$list
+                    filter="[all[shadows+tiddlers]annotate-text<selectionText>] [all[shadows+tiddlers]annotate-text<selectionTrim>] [all[shadows+tiddlers]word<selectionTrim>] [all[shadows+tiddlers]word<selectionTrimLowercase>] [all[shadows+tiddlers]word<selectionTrimTitlecase>] [all[shadows+tiddlers]word<selectionTrimUppercase>] +[!is[draft]!<currentTiddler>has[title]]"
+                >
+                    <$action-navigate $scroll="no"/>
+                </$list>
+            </$navigator>
         </$list>
     </$let>
 </$let>
