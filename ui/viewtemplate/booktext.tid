@@ -1,8 +1,0 @@
-title: $:/plugins/tidme/read/ui/ViewTemplate/booktext
-code-body: yes
-
-<$list
-    filter="[all[shadows+tiddlers]prefix[$:/plugins/twpub/]target<currentTiddler>]"
->
-    {{||$:/plugins/tidme/read/ui/ViewTemplate/texttemplate}}
-</$list>

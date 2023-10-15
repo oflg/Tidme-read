@@ -1,0 +1,54 @@
+title: $:/plugins/tidme/read/ui/ViewTemplate/twpub/chaptertext
+code-body: yes
+
+\define link-actions()
+<$action-sendmessage
+    $message="tm-scroll"
+    selector={{{ [<navigateTo>escapecss[]addprefix[#]] }}}
+/>
+\end
+
+<$let
+    twpub={{{ [<currentTiddler>split[/toc/]first[]] }}}
+    last-chunks={{{ [<twpub>get[count-chunks]subtract[1]pad[9]addprefix[/text/]addprefix<twpub>] }}}
+    target-next={{{ [<currentTiddler>split[-]butlast[]] [<currentTiddler>split[-]last[]add[1]] +[join[-]get[target]else<last-chunks>] }}}
+>
+    <$linkcatcher
+        actions=<<link-actions>>
+    >
+        <div class="tc-dynaview-track-tiddler-when-visible">
+            <$list
+                filter="[<currentTiddler>shadowsource[]plugintiddlers[]sortan[]allafter:include{!!target}allbefore:include<target-next>]"
+                variable="chunkTiddler"
+            >
+                <a id=<<chunkTiddler>> >
+                    <$let
+                        state={{{ [[$:/state/viewtemplate/visibility/]addsuffix<chunkTiddler>] }}}
+                    >
+                        <$reveal
+                            stateTitle=<<state>>
+                            type="nomatch"
+                            text=""
+                            default=""
+                            tag="div"
+                        >
+                            <$transclude
+                                $tiddler=<<chunkTiddler>>
+                                mode="inline"
+                            />
+                        </$reveal>
+                        <$reveal
+                            stateTitle=<<state>>
+                            type="match"
+                            text=""
+                            default=""
+                            tag="div"
+                        >
+                            <div class="tc-dynaview-track-tiddler-when-visible" style="min-height: 5em;" data-dynaview-track-tiddler=<<state>>/>
+                        </$reveal>
+                    </$let>
+                </a>
+            </$list>
+        </div>
+    </$linkcatcher>
+</$let>

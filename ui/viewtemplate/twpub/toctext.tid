@@ -1,0 +1,7 @@
+title: $:/plugins/tidme/read/ui/ViewTemplate/twpub/toctext
+code-body: yes
+
+<$list
+    filter="[all[shadows+tiddlers]prefix[$:/plugins/twpub/]target<currentTiddler>]"
+    template="$:/plugins/tidme/read/ui/ViewTemplate/twpub/chaptertext"
+/>
