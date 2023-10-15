@@ -2,14 +2,8 @@ title: $:/plugins/tidme/read/buttons/annotation/close
 icon: $:/core/images/close-button
 caption: {{$:/language/tidme/read/close}}
 description: {{$:/language/tidme/read/closetip}}
-condition: [{$:/temp/tidme/read/selection/text}trim[]]
+condition: [<currentTiddler>]
 
 <$action-deletetiddler
-    $tiddler=<<story>>
-/>
-<$action-deletetiddler
-    $tiddler=<<history>>
-/>
-<$action-deletetiddler
-    $tiddler=<<selection_popup_title>>
+    $filter="[all[shadows+tiddlers]prefix[$:/temp/tidme/read/]]"
 />

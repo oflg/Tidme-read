@@ -3,20 +3,19 @@ tags: $:/tags/TidmeRead/annotation
 icon: $:/core/images/help
 caption: {{$:/language/tidme/read/word}}
 description: {{$:/language/tidme/read/wordtip}}
-condition: [{$:/temp/tidme/read/selection/text}trim[]]
+condition: [{$:/temp/tidme/read/selection/title}!is[blank]]
 
 <$action-createtiddler
     $basetitle={{{ [{$:/language/tidme/read/word}] [{$:/temp/tidme/read/selection/text}trim[]search-replace:g:regexp[\n],[]] +[join[/]]}}}
-    tags={{{ [<studyTiddler>format:titlelist[]addsuffix[ ?]] }}}
+    tags={{{ [{$:/temp/tidme/read/selection/title}format:titlelist[]addsuffix[ ?]] }}}
     caption=`! {{!!word}}
 
 ${ [{$:/temp/tidme/read/selection/prefix}split[.]split[。]last[]] }$ ''${ [{$:/temp/tidme/read/selection/text}] }$'' ${ [{$:/temp/tidme/read/selection/suffix}split[.]split[。]first[]] }$`
     text="{{||$:/plugins/tidme/read/ui/ViewTemplate/word}}"
     word={{{ [{$:/temp/tidme/read/selection/text}trim[]] }}}
-    annotate-text={{{ [{$:/temp/tidme/read/selection/text}] }}}
-    annotate-prefix={{{ [{$:/temp/tidme/read/selection/prefix}split[]last[13]join[]] }}}
-    annotate-suffix={{{ [{$:/temp/tidme/read/selection/suffix}split[]first[13]join[]] }}}
+    annotate-text={{{ [{$:/temp/tidme/read/selection/text}trim[]] }}}
     annotate-colour="LightSkyBlue"
+    $timestamp={{$:/config/TimestampDisable}}
 >
     <$action-navigate
         $to=<<createTiddler-title>>
