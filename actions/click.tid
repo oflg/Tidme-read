@@ -17,11 +17,12 @@ code-body: yes
         filter="[<selectionTrim>!is[blank]]"
         variable="selectionTrim"
     >
+        <!-- <$log/>
         <$action-popup
             $state=<<selection_popup_title>>
             $coords=<<tv-selection-coords>>
             $floating="yes"
-        />
+        /> -->
         <$navigator
             story=<<story>>
             history=<<history>>
