@@ -3,91 +3,106 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/body
 
 \import [all[shadows+tiddlers]tag[$:/tags/Macro/View/Body]!is[draft]] [all[shadows+tiddlers]tag[$:/tags/Global/View/Body]!is[draft]]
 
-<$let
-    CJKV="[\u2E80-\u9FFF]"
-    selection_popup_title={{{ [[$:/temp/tidme/read/state/]addsuffix<currentTiddler>] }}}
-    story={{{ [[$:/temp/tidme/read/storylist/]addsuffix<currentTiddler>] }}}
-    history={{{ [[$:/temp/tidme/read/historylist/]addsuffix<currentTiddler>] }}}
+<!-- Preventing recursion errors -->
+<$list
+    filter="[<isReading>match[yes]]"
+    variable="ignore"
 >
-    <div style="position:relative;">
-        <$dynannotate
-            filter="[all[shadows+tiddlers]has[annotate-text]!tag[!]!is[draft]!<currentTiddler>]"
-            actions={{$:/plugins/tidme/read/actions/click}}
-        >
-            <div data-selection-actions-title="$:/plugins/tidme/read/actions/selection" data-selection-title=<<currentTiddler>> data-selection-popup-title=<<selection_popup_title>> data-story=<<story>> data-history=<<history>> >
-                <div id=<<currentTiddler>> class="dynannotate-chunk">
-                    <$transclude
-                        tiddler={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/ViewTemplateBodyFilter]![$:/config/Tidme/ViewTemplateBodyFilters/read]!is[draft]get[text]] :and[!is[blank]else[$:/core/ui/ViewTemplate/body/default]] }}}
-                    />
-                    <!-- twpub toc -->
-                    <$list
-                        filter="[<currentTiddler>has[twpub]]"
-                    >
-                        <div class="tmc-book">
-                            <$macrocall
-                                $name="toc-tabbed-internal-nav"
-                                tag={{{ [<currentTiddler>get[twpub]addsuffix[/toc]] }}}
-                                sort="sortan[]"
-                                template="$:/plugins/tidme/read/ui/ViewTemplate/twpub/toctext"
-                                selectedTiddler={{{ [<currentTiddler>addsuffix[/read]] }}}
-                                unselectedText={{$:/language/tidme/read/preview}}
+    <$transclude
+        tiddler={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/ViewTemplateBodyFilter]![$:/config/Tidme/ViewTemplateBodyFilters/read]!is[draft]get[text]] :and[!is[blank]else[$:/core/ui/ViewTemplate/body/default]] }}}
+    />
+</$list>
+<$list
+    filter="[<isReading>!match[yes]]"
+    variable="ignore"
+>
+    <$let
+        isReading="yes"
+        CJKV="[\u2E80-\u9FFF]"
+        selection_popup_title={{{ [[$:/temp/tidme/read/state/]addsuffix<currentTiddler>] }}}
+        story={{{ [[$:/temp/tidme/read/storylist/]addsuffix<currentTiddler>] }}}
+        history={{{ [[$:/temp/tidme/read/historylist/]addsuffix<currentTiddler>] }}}
+    >
+        <div style="position:relative;">
+            <$dynannotate
+                filter="[all[shadows+tiddlers]has[annotate-text]!tag[!]!is[draft]!<currentTiddler>]"
+                actions={{$:/plugins/tidme/read/actions/click}}
+            >
+                <div data-selection-actions-title="$:/plugins/tidme/read/actions/selection" data-selection-title=<<currentTiddler>> data-selection-popup-title=<<selection_popup_title>> data-story=<<story>> data-history=<<history>> >
+                    <div id=<<currentTiddler>> class="dynannotate-chunk">
+                        <$transclude
+                            tiddler={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/ViewTemplateBodyFilter]![$:/config/Tidme/ViewTemplateBodyFilters/read]!is[draft]get[text]] :and[!is[blank]else[$:/core/ui/ViewTemplate/body/default]] }}}
+                        />
+                        <!-- twpub toc -->
+                        <$list
+                            filter="[<currentTiddler>has[twpub]]"
+                        >
+                            <div class="tmc-book">
+                                <$macrocall
+                                    $name="toc-tabbed-internal-nav"
+                                    tag={{{ [<currentTiddler>get[twpub]addsuffix[/toc]] }}}
+                                    sort="sortan[]"
+                                    template="$:/plugins/tidme/read/ui/ViewTemplate/twpub/toctext"
+                                    selectedTiddler={{{ [<currentTiddler>addsuffix[/read]] }}}
+                                    unselectedText={{$:/language/tidme/read/preview}}
+                                />
+                            </div>
+                        </$list>
+                        <!-- twpub text -->
+                        <$reveal
+                            tag="div"
+                            type="nomatch"
+                            stateTitle=<<folded-state>>
+                            text="hide"
+                            default="show"
+                        >
+                            <$list
+                                filter="[<currentTiddler>has[target]prefix[$:/plugins/twpub/]]"
+                                template="$:/plugins/tidme/read/ui/ViewTemplate/twpub/chaptertext"
+                            />
+                        </$reveal>
+                    </div>
+                </div>
+            </$dynannotate>
+            <!-- annotation popup -->
+            <$reveal
+                type="popup"
+                tag="div"
+                state=<<selection_popup_title>>
+                updatePopupPosition="yes"
+                position="belowleft"
+                class="tmc-annotation-wrapper"
+            >
+                <$navigator
+                    story=<<story>>
+                    history=<<history>>
+                    openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}}
+                    openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}}
+                    relinkOnRename={{$:/config/RelinkOnRename}}
+                >
+                    <section class="tc-story-river" role="main">
+                        <div class="tc-drop-down" style="min-width:0;">
+                            <$list
+                                filter="[all[shadows+tiddlers]tag[$:/tags/TidmeRead/annotation]!is[draft]]"
+                                template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
                             />
                         </div>
-                    </$list>
-                    <!-- twpub text -->
-                    <$reveal
-                        tag="div"
-                        type="nomatch"
-                        stateTitle=<<folded-state>>
-                        text="hide"
-                        default="show"
-                    >
-                        <$list
-                            filter="[<currentTiddler>has[target]prefix[$:/plugins/twpub/]]"
-                            template="$:/plugins/tidme/read/ui/ViewTemplate/twpub/chaptertext"
-                        />
-                    </$reveal>
-                </div>
-            </div>
-        </$dynannotate>
-        <!-- annotation popup -->
-        <$reveal
-            type="popup"
-            tag="div"
-            state=<<selection_popup_title>>
-            updatePopupPosition="yes"
-            position="belowleft"
-            class="tmc-annotation-wrapper"
-        >
-            <$navigator
-                story=<<story>>
-                history=<<history>>
-                openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}}
-                openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}}
-                relinkOnRename={{$:/config/RelinkOnRename}}
-            >
-                <section class="tc-story-river" role="main">
-                    <div class="tc-drop-down" style="min-width:0;">
-                        <$list
-                            filter="[all[shadows+tiddlers]tag[$:/tags/TidmeRead/annotation]!is[draft]]"
-                            template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
-                        />
-                    </div>
-                    <br/>
-                    <$let
-                        studyTiddler=""
-                        deckTiddler=""
-                    >
-                        <$list
-                            filter="[list<story>]"
-                            history=<<history>>
-                            template="$:/core/ui/StoryTiddlerTemplate"
-                            storyview="pop"
-                            emptyMessage={{$:/config/EmptyStoryMessage}}
-                        />
-                    </$let>
-                </section>
-            </$navigator>
-        </$reveal>
-    </div>
-</$let>
+                        <br/>
+                        <$let
+                            studyTiddler=""
+                            deckTiddler=""
+                        >
+                            <$list
+                                filter="[list<story>]"
+                                history=<<history>>
+                                template="$:/core/ui/StoryTiddlerTemplate"
+                                storyview="pop"
+                                emptyMessage={{$:/config/EmptyStoryMessage}}
+                            />
+                        </$let>
+                    </section>
+                </$navigator>
+            </$reveal>
+        </div>
+    </$let>
+</$list>
