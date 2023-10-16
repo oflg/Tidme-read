@@ -8,5 +8,5 @@
     "plugin-type": "plugin",
     "source": "https://github.com/oflg/Tidme-read",
     "title": "$:/plugins/tidme/read",
-    "version": "1.4.3"
+    "version": "1.4.4"
 }
