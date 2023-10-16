@@ -2,6 +2,7 @@ title: $:/plugins/tidme/read/buttons/annotation/close
 icon: $:/core/images/close-button
 caption: {{$:/language/tidme/read/close}}
 description: {{$:/language/tidme/read/closetip}}
+list-before:
 condition: [<currentTiddler>]
 
 <$action-deletetiddler

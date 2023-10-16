@@ -3,6 +3,7 @@ tags: $:/tags/TidmeRead/annotation
 icon: $:/core/images/add-comment
 caption: {{$:/language/tidme/read/sentence}}
 description: {{$:/language/tidme/read/sentencetip}}
+list-after: $:/plugins/tidme/read/buttons/annotation/word
 condition: [{$:/temp/tidme/read/selection/title}!is[blank]]
 
 <$action-createtiddler
