@@ -68,18 +68,10 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/body
             >
                 <section class="tc-story-river" role="main">
                     <div class="tc-drop-down" style="min-width:0;">
-                        <div>
-                            <$list
-                                filter="$:/plugins/tidme/read/buttons/annotation/close"
-                                template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
-                            />
-                        </div>
-                        <div>
-                            <$list
-                                filter="[all[shadows+tiddlers]tag[$:/tags/TidmeRead/annotation]!is[draft]]"
-                                template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
-                            />
-                        </div>
+                        <$list
+                            filter="[all[shadows+tiddlers]tag[$:/tags/TidmeRead/annotation]!is[draft]]"
+                            template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
+                        />
                     </div>
                     <br/>
                     <$let

@@ -1,4 +1,5 @@
 title: $:/plugins/tidme/read/buttons/annotation/close
+tags: $:/tags/TidmeRead/annotation
 icon: $:/core/images/close-button
 caption: {{$:/language/tidme/read/close}}
 description: {{$:/language/tidme/read/closetip}}
