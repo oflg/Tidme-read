@@ -25,7 +25,7 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/body
     >
         <div style="position:relative;">
             <$dynannotate
-                filter="[all[shadows+tiddlers]has[annotate-text]!tag[!]!is[draft]!<currentTiddler>]"
+                filter="[all[shadows+tiddlers]has[annotate-text]!is[draft]!<currentTiddler>!subfilter{$:/Deck/read!!card_exclude}]"
                 popup=<<selection_popup_title>>
                 floating="yes"
                 actions={{$:/plugins/tidme/read/actions/click}}
