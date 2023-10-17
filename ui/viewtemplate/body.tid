@@ -66,45 +66,45 @@ title: $:/plugins/tidme/read/ui/ViewTemplate/body
                     </div>
                 </div>
             </$dynannotate>
-            <!-- annotation popup -->
-            <$reveal
-                type="popup"
-                tag="div"
-                state=<<selection_popup_title>>
-                updatePopupPosition="yes"
-                position="belowleft"
-                class="tmc-annotation-wrapper"
-            >
-                <$navigator
-                    story=<<story>>
-                    history=<<history>>
-                    openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}}
-                    openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}}
-                    relinkOnRename={{$:/config/RelinkOnRename}}
-                >
-                    <section class="tc-story-river" role="main">
-                        <div class="tc-drop-down" style="min-width:0;">
-                            <$list
-                                filter="[all[shadows+tiddlers]tag[$:/tags/TidmeRead/annotation]!is[draft]]"
-                                template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
-                            />
-                        </div>
-                        <br/>
-                        <$let
-                            studyTiddler=""
-                            deckTiddler=""
-                        >
-                            <$list
-                                filter="[list<story>]"
-                                history=<<history>>
-                                template="$:/core/ui/StoryTiddlerTemplate"
-                                storyview="pop"
-                                emptyMessage={{$:/config/EmptyStoryMessage}}
-                            />
-                        </$let>
-                    </section>
-                </$navigator>
-            </$reveal>
         </div>
+        <!-- annotation popup -->
+        <$reveal
+            type="popup"
+            tag="div"
+            state=<<selection_popup_title>>
+            updatePopupPosition="yes"
+            position="belowleft"
+            class="tmc-annotation-wrapper"
+        >
+            <$navigator
+                story=<<story>>
+                history=<<history>>
+                openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}}
+                openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}}
+                relinkOnRename={{$:/config/RelinkOnRename}}
+            >
+                <section class="tc-story-river" role="main">
+                    <div class="tc-drop-down" style="min-width:0;">
+                        <$list
+                            filter="[all[shadows+tiddlers]tag[$:/tags/TidmeRead/annotation]!is[draft]]"
+                            template="$:/plugins/tidme/fsrs4tw/ui/ViewTemplate/button"
+                        />
+                    </div>
+                    <br/>
+                    <$let
+                        studyTiddler=""
+                        deckTiddler=""
+                    >
+                        <$list
+                            filter="[list<story>]"
+                            history=<<history>>
+                            template="$:/core/ui/StoryTiddlerTemplate"
+                            storyview="pop"
+                            emptyMessage={{$:/config/EmptyStoryMessage}}
+                        />
+                    </$let>
+                </section>
+            </$navigator>
+        </$reveal>
     </$let>
 </$list>
