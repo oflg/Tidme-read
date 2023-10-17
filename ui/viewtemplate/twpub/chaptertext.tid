@@ -11,7 +11,8 @@ code-body: yes
 <$let
     twpub={{{ [<currentTiddler>split[/toc/]first[]] }}}
     last-chunks={{{ [<twpub>get[count-chunks]subtract[1]pad[9]addprefix[/text/]addprefix<twpub>] }}}
-    target-next={{{ [<currentTiddler>split[-]butlast[]] [<currentTiddler>split[-]last[]add[1]] +[join[-]get[target]else<last-chunks>] }}}
+    toc-number={{{ [<currentTiddler>split[/]last[]split[-]split[_]last[]] }}}
+    target-next={{{ [<currentTiddler>removesuffix<toc-number>] [<toc-number>add[1]] +[join[]get[target]else<last-chunks>] }}}
 >
     <$linkcatcher
         actions=<<link-actions>>
