@@ -10,9 +10,9 @@ code-body: yes
 
 <$let
     twpub={{{ [<currentTiddler>split[/toc/]first[]] }}}
+    twpub-toc={{{ [<twpub>addfuffix[/toc]] }}}
     last-chunks={{{ [<twpub>get[count-chunks]subtract[1]pad[9]addprefix[/text/]addprefix<twpub>] }}}
-    toc-number={{{ [<currentTiddler>split[/]last[]split[-]split[_]last[]] }}}
-    target-next={{{ [<currentTiddler>removesuffix<toc-number>] [<toc-number>add[1]] +[join[]get[target]else<last-chunks>] }}}
+    target-next={{{ [all[shadows+tiddlers]prefix<twpub-toc>sortan[]after<currentTiddler>get[target]else<last-chunks>] }}}
 >
     <$linkcatcher
         actions=<<link-actions>>
@@ -23,31 +23,10 @@ code-body: yes
                 variable="chunkTiddler"
             >
                 <a id=<<chunkTiddler>> >
-                    <$let
-                        state={{{ [[$:/state/viewtemplate/visibility/]addsuffix<chunkTiddler>] }}}
-                    >
-                        <$reveal
-                            stateTitle=<<state>>
-                            type="nomatch"
-                            text=""
-                            default=""
-                            tag="div"
-                        >
-                            <$transclude
-                                $tiddler=<<chunkTiddler>>
-                                mode="inline"
-                            />
-                        </$reveal>
-                        <$reveal
-                            stateTitle=<<state>>
-                            type="match"
-                            text=""
-                            default=""
-                            tag="div"
-                        >
-                            <div class="tc-dynaview-track-tiddler-when-visible" style="min-height: 5em;" data-dynaview-track-tiddler=<<state>>/>
-                        </$reveal>
-                    </$let>
+                    <$transclude
+                        $tiddler=<<chunkTiddler>>
+                        mode="inline"
+                    />
                 </a>
             </$list>
         </div>
